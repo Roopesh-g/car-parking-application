@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:100,300,400,600" rel="stylesheet" type="text/css">
+    <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet" type="text/css">
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <title>Car Parking</title>
+  </head>
+  <body>
+    <div class="top">
+      <div class="parking">
+        <div class="parking__title">
+          Car Parking Application
+        </div>
+
+        <div class="parking__input">
+          <br />
+          For starter, I would like to have <input type="text" class="init__input" placeholder="<input>"> parking slots. Having <input type="text" class="init__input" placeholder="<input>"> auto-filled parking slots.
+        </div>
+
+        <div class="parking__freez__input">
+          <button class="freez__btn" onclick=alert("clicked")>Let's Park</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="bottom">
+      <div class="add">
+        <input type="text" class="car__registration" placeholder="Registration Number">
+        <input type="text" class="car__color" placeholder="Color">
+        <button class="add__btn"><i class="ion-ios-checkmark-outline"></i></button>
+      </div>
+
+      <div class="container display">
+        <div class="all__cars">
+          <table>
+            <tr>
+              <th>Registration Number</th>
+              <th>Color</th>
+              <th>Slot</th>
+            </tr>
+            <tr>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>Germany <button class="item__delete--btn">
+                  <i class="ion-ios-close-outline"></i>
+              </button></td>
+            </tr>
+            <tr>
+              <td>Alfreds Futterkiste</td>
+              <td>Maria Anders</td>
+              <td>Germany</td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="specific__cars">
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

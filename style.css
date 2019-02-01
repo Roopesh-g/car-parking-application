@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    color: #555;
+    font-family: Open Sans;
+    font-size: 16px;
+    position: relative;
+    height: 100vh;
+    font-weight: 400;
+}
+
+/**********************************************
+*** TOP PART
+**********************************************/
+
+.top {
+    height: 25vh;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)), url(back.png);
+    background-size: cover;
+    background-position: center;
+    position: relative;
+}
+
+.parking {
+    position: absolute;
+    width: 900px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+}
+
+.parking__title {
+    font-size: 25px;
+    text-align: center;
+    margin-bottom: 10px;
+    font-weight: 300;
+}
+
+.parking__input {
+  font-size: 18px;
+  text-align: center;
+  margin-bottom: 10px;
+  font-weight: 200;
+  position: relative;
+}
+
+.freez__btn {
+    font-size: 25px;
+    background: none;
+    border: none;
+    color: #28B9B5;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 0.1;
+    margin-left: 385px;
+    text-align: center;
+}
+
+.init__input {
+  width: 80px;
+  background: none;
+  border: none;
+  text-align: center;
+  color: #28B9B5;
+  font-size: 25px;
+}
+
+/**********************************************
+*** bottom PART
+**********************************************/
+.add {
+    padding: 14px;
+    border-bottom: 1px solid #e7e7e7;
+    background-color: #f7f7f7;
+    text-align: center;
+}
+
+.car__registration,
+.car__color {
+    border: 1px solid #e7e7e7;
+    background-color: #fff;
+    color: inherit;
+    font-family: inherit;
+    font-size: 14px;
+    padding: 12px 15px;
+    margin-right: 10px;
+    border-radius: 5px;
+    transition: border 0.3s;
+    text-align: center;
+}
+
+.add__btn {
+    font-size: 35px;
+    background: none;
+    border: none;
+    color: #28B9B5;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.1;
+    margin-left: 10px;
+}
+
+.container {
+  width: 1000px;
+  margin: 60px auto;
+}
+
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+
+.item__delete--btn {
+    color: #FF5049;
+    font-size: 22px;
+    background: none;
+    border: none;
+    cursor: pointer;    
+    line-height: 1;
+    display: block;
+}
