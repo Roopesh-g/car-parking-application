@@ -74,6 +74,25 @@ var parkingController = (function() {
       generateCarDetails(n,m);
     },
 
+    addSingleCarDetails: function(car_reg_no, car_color) {
+
+      var newItem, slot = -1;
+      for(var i = 1; i <= data.checkSlot.length; i++){
+        if(data.checkSlot[i] === -1){
+          slot = i;
+          data.checkSlot[i] = 1;
+          newItem = new CarDetails(1, car_reg_no, car_color, slot);
+          data.allCars.push(newItem);
+          break;
+        }
+        // else if (i === data.checkSlot.length){
+        //   alert('We regret, parking is not available at moment');
+        // }
+      }
+
+      return newItem;
+    },
+
     dataStructure: function() {
       return data;
     }
@@ -89,15 +108,27 @@ var UIController = (function() {
     inputSlots: '.total__slot',
     inputAutofillSlots: '.total__autofill',
     buttonFreeze: '.freeze__btn',
-    allCarTable: '.all__cars__table'
+    allCarTable: '.all__cars__table',
+    addCarBtn: '.add__btn',
+    carRegNoTA: '.car__registration',
+    carColorTA: '.car__color'
   };
 
   return {
-    getInput: function() {
+    getInitialInput: function() {
 
       return {
         totalParkingSlots: document.querySelector(DOMStrings.inputSlots).value,
         totalAutofillSlots: document.querySelector(DOMStrings.inputAutofillSlots).value
+
+      }
+    },
+
+    getSingleCarInput: function() {
+
+      return {
+        carRegisNo_TA: document.querySelector(DOMStrings.carRegNoTA).value,
+        carColor_TA: document.querySelector(DOMStrings.carColorTA).value
 
       }
     },
@@ -124,18 +155,24 @@ var UIController = (function() {
         //Insert the HTML into the DOM
         document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
       }
-      // html = '<tr id="car-%slot%"> <td>%regNo%</td> <td>%color%</td> <td>%slotNo% <button class="item__delete--btn"> <i class="ion-ios-close-outline"></i> </button></td> </tr>'
-      //
-      // //Replace place-holder with actual dataStructure
-      // newHtml = html.replace('%slot%', obj.allCars[0].carSlot);
-      // newHtml = newHtml.replace('%regNo%',obj.allCars[0].carRegNo);
-      // newHtml = newHtml.replace('%color%',obj.allCars[0].carColor);
-      // newHtml = newHtml.replace('%slotNo%',obj.allCars[0].carSlot);
-      //
-      // //Insert the HTML into the DOM
-      // document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
-    }
+    },
 
+    displaySingleCar: function(obj) {
+      var html, newHtml, element;
+      //HTML string with place-holder
+      element = DOMStrings.allCarTable;
+      html = '<tr id="car-%slot%"> <td>%regNo%</td> <td>%color%</td> <td>%slotNo% <button class="item__delete--btn"> <i class="ion-ios-close-outline"></i> </button></td> </tr>'
+
+      //Replace place-holder with actual dataStructure
+      newHtml = html.replace('%slot%', obj.carSlot);
+      newHtml = newHtml.replace('%regNo%',obj.carRegNo);
+      newHtml = newHtml.replace('%color%',obj.carColor);
+      newHtml = newHtml.replace('%slotNo%',obj.carSlot);
+
+      //Insert the HTML into the DOM
+      document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+
+    }
   }
 
 })();
@@ -149,29 +186,43 @@ var controller = (function(parkingCtrl, UICtrl) {
   var setEventListeners = function() {
 
     var DOM = UICtrl.getDOMStrings();
-    document.querySelector(DOM.buttonFreeze).addEventListener('click', ctrlAddCar);
+    document.querySelector(DOM.buttonFreeze).addEventListener('click', ctrlAddCarAuto);
 
     // document.addEventListener('keypress', function(event) {
     //
     //   if(event.keyCode === 13 || event.which === 13 )
-    //     ctrlAddCar();
+    //     ctrlAddCarAuto();
     //
     // });
 
+    document.querySelector(DOM.addCarBtn).addEventListener('click', ctrlAddCarSingle);
   };
 
-  var ctrlAddCar = function() {
+  var ctrlAddCarAuto = function() {
 
     //console.log('pressed');
     // 1. get the field input data
-    var input = UICtrl.getInput();
-    console.log(input.totalParkingSlots, input.totalAutofillSlots);
+    var input = UICtrl.getInitialInput();
+    //console.log(input.totalParkingSlots, input.totalAutofillSlots);
 
     // 2. add auto-generate m car details to parking controller
     parkingController.autoFill(parseInt(input.totalParkingSlots), parseInt(input.totalAutofillSlots));
 
     // 3. add the cars list to the UI
     UICtrl.displayAllCar(parkingController.dataStructure());
+
+  };
+
+  var ctrlAddCarSingle = function() {
+
+    //1. get the field input data
+    var singleCarInput = UICtrl.getSingleCarInput();
+    //console.log('single car ' + singleCarInput.carRegisNo_TA + singleCarInput.carColor_TA);
+
+    //2. add new car details to parking Controller
+    var newCar = parkingController.addSingleCarDetails(singleCarInput.carRegisNo_TA, singleCarInput.carColor_TA);
+    //console.log(newCar);
+    UICtrl.displaySingleCar(newCar);
 
   };
 
