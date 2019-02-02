@@ -49,7 +49,7 @@ body {
   position: relative;
 }
 
-.freez__btn {
+.freeze__btn {
     font-size: 25px;
     background: none;
     border: none;
@@ -133,7 +133,7 @@ tr:nth-child(even) {
     font-size: 22px;
     background: none;
     border: none;
-    cursor: pointer;    
+    cursor: pointer;
     line-height: 1;
     display: block;
 }
