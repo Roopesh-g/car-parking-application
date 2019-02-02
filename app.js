@@ -93,6 +93,19 @@ var parkingController = (function() {
       return newItem;
     },
 
+    deleteCar: function(carSlotToDelete) {
+      console.log(carSlotToDelete);
+      var index;
+      for(index = 0; index < data.allCars.length; index++) {
+        if(data.allCars[index].carSlot === carSlotToDelete){
+          //console.log(index);
+          console.log(data.allCars.splice(index,1));
+          data.checkSlot[carSlotToDelete] = -1;
+          break;
+        }
+      }
+    },
+
     dataStructure: function() {
       return data;
     }
@@ -111,7 +124,8 @@ var UIController = (function() {
     allCarTable: '.all__cars__table',
     addCarBtn: '.add__btn',
     carRegNoTA: '.car__registration',
-    carColorTA: '.car__color'
+    carColorTA: '.car__color',
+    container: '.container'
   };
 
   return {
@@ -172,6 +186,10 @@ var UIController = (function() {
       //Insert the HTML into the DOM
       document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
 
+    },
+
+    deleteCarUI: function(selectorID) {
+      document.getElementById(selectorID).parentNode.removeChild(document.getElementById(selectorID));
     }
   }
 
@@ -196,6 +214,8 @@ var controller = (function(parkingCtrl, UICtrl) {
     // });
 
     document.querySelector(DOM.addCarBtn).addEventListener('click', ctrlAddCarSingle);
+
+    document.querySelector(DOM.container).addEventListener('click', ctrlDeleteCar);
   };
 
   var ctrlAddCarAuto = function() {
@@ -224,6 +244,20 @@ var controller = (function(parkingCtrl, UICtrl) {
     //console.log(newCar);
     UICtrl.displaySingleCar(newCar);
 
+  };
+
+  var ctrlDeleteCar = function(event) {
+    var carID, splitID, slot;
+    carID = (event.target.parentNode.parentNode.parentNode.id);
+    if(carID) {
+      splitID = carID.split('-');
+      slot = splitID[1];
+
+      // 1. delete car detail from DS
+      parkingController.deleteCar(parseInt(slot));
+      // 2. delete from UI
+      UICtrl.deleteCarUI(carID);
+    }
   };
 
   return {
