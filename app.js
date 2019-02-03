@@ -23,7 +23,7 @@ var parkingController = (function() {
           };
 
           var generateCarDetails = function(totalCar,totalAutofillCar) {
-                console.log('inside generateCarDetails' + totalCar + totalAutofillCar);
+                //console.log('inside generateCarDetails' + totalCar + totalAutofillCar);
                 /*
                 check slot array will be used to check the availability of Slots
                 -1: unoccupied
@@ -72,9 +72,10 @@ var parkingController = (function() {
 
                 addSingleCarDetails: function(car_reg_no, car_color) {
 
-                      var newItem, slot = -1;
+                      var newItem, slot = -1, flag = -1;;
                       for(var i = 1; i <= data.checkSlot.length; i++){
                             if(data.checkSlot[i] === -1){
+                                  flag = 1;
                                   slot = i;
                                   data.checkSlot[i] = 1;
                                   newItem = new CarDetails(1, car_reg_no, car_color, slot);
@@ -82,17 +83,20 @@ var parkingController = (function() {
                                   break;
                             }
                       }
+                      if(flag === -1){
+                            return false;
+                      }
                       return newItem;
                 },
 
                 deleteCar: function(carSlotToDelete) {
-                      console.log(carSlotToDelete);
+                      //console.log(carSlotToDelete);
                       var index;
                       for(index = 0; index < data.allCars.length; index++) {
                               if(data.allCars[index].carSlot === carSlotToDelete){
 
                                     //console.log(index);
-                                    console.log(data.allCars.splice(index,1));
+                                    //console.log(data.allCars.splice(index,1));
                                     data.checkSlot[carSlotToDelete] = -1;
                                     break;
                               }
@@ -154,11 +158,13 @@ var UIController = (function() {
   return {
           getInitialInput: function() {
                 let x, y, status;
-                x = document.querySelector(DOMStrings.inputSlots).value;
-                y = document.querySelector(DOMStrings.inputAutofillSlots).value;
+                x = parseInt(document.querySelector(DOMStrings.inputSlots).value);
+                y = parseInt(document.querySelector(DOMStrings.inputAutofillSlots).value);
+                //console.log(x, y)
 
                 //verify the inputs N >= M
                 status = valid(x, y);
+                //console.log(status);
                 if(status){
                       return {
                             totalParkingSlots: x,
@@ -416,7 +422,13 @@ var controller = (function(parkingCtrl, UICtrl) {
                       //2. add new car details to parking Controller
                       var newCar = parkingController.addSingleCarDetails(singleCarInput.carRegisNo_TA, singleCarInput.carColor_TA);
                       //console.log(newCar);
-                      UICtrl.displaySingleCar(newCar);
+                      if(newCar === false){
+                            alert('Parking is not available at the moment');
+                      }
+                      else {
+                            UICtrl.displaySingleCar(newCar);
+                      }
+
                 }
           };
 
