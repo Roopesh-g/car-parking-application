@@ -129,14 +129,35 @@ var UIController = (function() {
 
   };
 
+  var valid = function(x, y) {
+    if(x >= y)
+      return true;
+    else
+      return false;
+  };
+
   return {
     getInitialInput: function() {
+      let x, y, status;
+      x = document.querySelector(DOMStrings.inputSlots).value;
+      y = document.querySelector(DOMStrings.inputAutofillSlots).value;
 
-      return {
-        totalParkingSlots: document.querySelector(DOMStrings.inputSlots).value,
-        totalAutofillSlots: document.querySelector(DOMStrings.inputAutofillSlots).value
-
+      //verify the inputs N >= M
+      status = valid(x, y);
+      if(status){
+        return {
+          totalParkingSlots: x,
+          totalAutofillSlots: y,
+          verified: true
+        }
       }
+      else {
+        alert('No worries I\'ve got your back, \nauto-fill parking cannot be greater than total parking slots' );
+        return {
+          verified: false
+        }
+      }
+
     },
 
     getSingleCarInput: function() {
@@ -224,9 +245,13 @@ var UIController = (function() {
       document.querySelector(DOMStrings.carRegNoTA).focus();
       document.querySelector(DOMStrings.carColorTA).disabled = false;
       document.querySelector(DOMStrings.addCarBtn).disabled = false;
-    }
-  }
+    },
 
+    verifyInput: function() {
+
+    }
+
+  }
 })();
 
 
@@ -259,14 +284,18 @@ var controller = (function(parkingCtrl, UICtrl) {
     var input = UICtrl.getInitialInput();
     //console.log(input.totalParkingSlots, input.totalAutofillSlots);
 
-    // 2. add auto-generate m car details to parking controller
-    parkingController.autoFill(parseInt(input.totalParkingSlots), parseInt(input.totalAutofillSlots));
+    // 2. verify the input
+    if(input.verified === true){
 
-    // 3. add the cars list to the UI
-    UICtrl.displayAllCar(parkingController.dataStructure());
+      // 3. add auto-generate m car details to parking controller
+      parkingController.autoFill(parseInt(input.totalParkingSlots), parseInt(input.totalAutofillSlots));
 
-    // 4. freeze the input and button
-    UICtrl.freezeNM();
+      // 4. add the cars list to the UI
+      UICtrl.displayAllCar(parkingController.dataStructure());
+
+      // 5. freeze the input and button
+      UICtrl.freezeNM();
+    }
 
   };
 
