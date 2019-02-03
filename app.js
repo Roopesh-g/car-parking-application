@@ -136,6 +136,24 @@ var UIController = (function() {
       return false;
   };
 
+  var regEx = function(str, patt) {
+    //let patt = /(^[A-Z]{2}[\-][0-9]{2}[\-][A-Z]{2}[\-][0-9]{4}$)/g;
+    patt.compile(patt);
+    let res = patt.test(str);
+    if(patt.toString().includes("Black") && res === false){
+      alert("Invalid car color; Accepted are: Black, White, Red, Blue");
+      return res;
+    }
+    else if(res === false){
+      alert('Car Registration No. is invalid. Accepted format is: XX-00-XX-0000');
+      return res;
+    }
+    else {
+      return res;
+    }
+
+  };
+
   return {
     getInitialInput: function() {
       let x, y, status;
@@ -161,12 +179,25 @@ var UIController = (function() {
     },
 
     getSingleCarInput: function() {
+      var x, y, statusOfRegNo, statusOfColor;
+      x = document.querySelector(DOMStrings.carRegNoTA).value;
+      y = document.querySelector(DOMStrings.carColorTA).value;
+      statusOfRegNo = regEx(x, /(^[A-Z]{2}[\-][0-9]{2}[\-][A-Z]{2}[\-][0-9]{4}$)/g);
+      statusOfColor = regEx(y, /^(Black)$|^(White)$|^(Blue)$|^(Red)$/g)
+      if(statusOfRegNo && statusOfColor) {
+        return {
+          carRegisNo_TA: x,
+          carColor_TA: y,
+          verified: true
 
-      return {
-        carRegisNo_TA: document.querySelector(DOMStrings.carRegNoTA).value,
-        carColor_TA: document.querySelector(DOMStrings.carColorTA).value
-
+        }
       }
+      else {
+        return {
+          verified: false
+        }
+      }
+
     },
 
     getDOMStrings: function() {
@@ -245,10 +276,6 @@ var UIController = (function() {
       document.querySelector(DOMStrings.carRegNoTA).focus();
       document.querySelector(DOMStrings.carColorTA).disabled = false;
       document.querySelector(DOMStrings.addCarBtn).disabled = false;
-    },
-
-    verifyInput: function() {
-
     }
 
   }
@@ -305,10 +332,14 @@ var controller = (function(parkingCtrl, UICtrl) {
     var singleCarInput = UICtrl.getSingleCarInput();
     //console.log('single car ' + singleCarInput.carRegisNo_TA + singleCarInput.carColor_TA);
 
-    //2. add new car details to parking Controller
-    var newCar = parkingController.addSingleCarDetails(singleCarInput.carRegisNo_TA, singleCarInput.carColor_TA);
-    //console.log(newCar);
-    UICtrl.displaySingleCar(newCar);
+    //Verify the inputs
+    if(singleCarInput.verified){
+
+      //2. add new car details to parking Controller
+      var newCar = parkingController.addSingleCarDetails(singleCarInput.carRegisNo_TA, singleCarInput.carColor_TA);
+      //console.log(newCar);
+      UICtrl.displaySingleCar(newCar);
+    }
 
   };
 
