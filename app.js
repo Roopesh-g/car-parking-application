@@ -294,6 +294,12 @@ var UIController = (function() {
                 }
           },
 
+          clearInputField: function() {
+                alert('hello');
+                document.querySelector(DOMStrings.carRegNoTA).value = '';
+                document.querySelector(DOMStrings.carColorTA).value = '';
+          },
+
           searchResultDisplay: function(dataObj, searchObj) {
                 var html, newHtml, element;
                 element = DOMStrings.allCarTable;
@@ -426,6 +432,7 @@ var controller = (function(parkingCtrl, UICtrl) {
                             alert('Parking is not available at the moment');
                       }
                       else {
+                            UICtrl.clearInputField();
                             UICtrl.displaySingleCar(newCar);
                       }
 
