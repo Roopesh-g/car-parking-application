@@ -125,7 +125,8 @@ var UIController = (function() {
     addCarBtn: '.add__btn',
     carRegNoTA: '.car__registration',
     carColorTA: '.car__color',
-    container: '.container'
+    container: '.container',
+
   };
 
   return {
@@ -190,6 +191,39 @@ var UIController = (function() {
 
     deleteCarUI: function(selectorID) {
       document.getElementById(selectorID).parentNode.removeChild(document.getElementById(selectorID));
+    },
+
+    initialState: function() {
+
+      /*
+      shift focus to 1st <input> area
+      disable all the unnecessary <input> and <button>
+      */
+      document.querySelector(DOMStrings.inputSlots).focus();
+      document.querySelector(DOMStrings.addCarBtn).disabled = true;
+      document.querySelector(DOMStrings.carRegNoTA).disabled = true;
+      document.querySelector(DOMStrings.carColorTA).disabled = true;
+
+    },
+
+    freezeNM: function() {
+
+      /*
+      after acepting the no. of slots and to be auto-filled slots freeze
+      the area so user it couldnt be changed in future.
+      */
+      document.querySelector(DOMStrings.inputSlots).disabled = true;
+      document.querySelector(DOMStrings.inputAutofillSlots).disabled = true;
+      //alert('hello');
+      document.querySelector(DOMStrings.buttonFreeze).disabled = true;
+      //alert('hello');
+      /*
+      allow user to manually input car details
+      */
+      document.querySelector(DOMStrings.carRegNoTA).disabled = false;
+      document.querySelector(DOMStrings.carRegNoTA).focus();
+      document.querySelector(DOMStrings.carColorTA).disabled = false;
+      document.querySelector(DOMStrings.addCarBtn).disabled = false;
     }
   }
 
@@ -231,6 +265,9 @@ var controller = (function(parkingCtrl, UICtrl) {
     // 3. add the cars list to the UI
     UICtrl.displayAllCar(parkingController.dataStructure());
 
+    // 4. freeze the input and button
+    UICtrl.freezeNM();
+
   };
 
   var ctrlAddCarSingle = function() {
@@ -263,6 +300,7 @@ var controller = (function(parkingCtrl, UICtrl) {
   return {
     init: function() {
       console.log('Application has started.');
+      UICtrl.initialState();
       setEventListeners();
     }
   }
