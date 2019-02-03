@@ -437,7 +437,7 @@ var controller = (function(parkingCtrl, UICtrl) {
 
   return {
           init: function() {
-                console.log('Application has started.');
+                //console.log('Application has started.');
                 UICtrl.initialState();
                 setEventListeners();
           }
