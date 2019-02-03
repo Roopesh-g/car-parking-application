@@ -33,8 +33,17 @@
         </div>
 
       <div class="search">
-        <button class="search__btn">Simplify your Search</button>
-      
+
+        <div class="search__container">
+          <select class="search__type">
+            <option value="carRegNo" selected>Car Registration Number</option>
+            <option value="carColor">Car Color</option>
+          </select>
+          <input type="text" class="search__value" placeholder="Search Value">
+          <button class="search__btn">Simplify your Search</button>
+          <pre> </pre>
+          <button class="search__all__car">All Cars</button>
+        </div>
       </div>
 
       <div class="container display">

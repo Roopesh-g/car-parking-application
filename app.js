@@ -126,6 +126,11 @@ var UIController = (function() {
     carRegNoTA: '.car__registration',
     carColorTA: '.car__color',
     container: '.container',
+    searchBtn: '.search__btn',
+    searchType: '.search__type',
+    searchValue: '.search__value',
+    carTable: '.all__cars__table',
+    allCarButton: '.search__all__car'
 
   };
 
@@ -245,6 +250,15 @@ var UIController = (function() {
       document.getElementById(selectorID).parentNode.removeChild(document.getElementById(selectorID));
     },
 
+    clearTableUI: function() {
+      var tableHeaderRowCount = 1;
+      var table = document.querySelector(DOMStrings.carTable);
+      var rowCount = table.rows.length;
+      for (var i = tableHeaderRowCount; i < rowCount; i++) {
+        table.deleteRow(tableHeaderRowCount);
+      }
+    },
+
     initialState: function() {
 
       /*
@@ -276,9 +290,61 @@ var UIController = (function() {
       document.querySelector(DOMStrings.carRegNoTA).focus();
       document.querySelector(DOMStrings.carColorTA).disabled = false;
       document.querySelector(DOMStrings.addCarBtn).disabled = false;
+    },
+
+    getCarData: function() {
+      return {
+        searchType: document.querySelector(DOMStrings.searchType).value,
+        searchValue: document.querySelector(DOMStrings.searchValue).value
+      }
+    },
+
+    searchResultDisplay: function(dataObj, searchObj) {
+      var html, newHtml, element;
+      element = DOMStrings.allCarTable;
+
+      if(searchObj.searchType === 'carColor'){
+        //var html, newHtml, element;
+        //HTML string with place-holder
+        for(var i = 0; i < dataObj.allCars.length; i++){
+
+          if(dataObj.allCars[i].carColor === searchObj.searchValue){
+            html = '<tr id="car-%slot%"> <td>%regNo%</td> <td>%color%</td> <td>%slotNo%</td> </tr>'
+
+            //Replace place-holder with actual dataStructure
+            newHtml = html.replace('%slot%', dataObj.allCars[i].carSlot);
+            newHtml = newHtml.replace('%regNo%',dataObj.allCars[i].carRegNo);
+            newHtml = newHtml.replace('%color%',dataObj.allCars[i].carColor);
+            newHtml = newHtml.replace('%slotNo%',dataObj.allCars[i].carSlot);
+
+            //Insert the HTML into the DOM
+            document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+          }
+
+        }
+      }
+      else if(searchObj.searchType === 'carRegNo') {
+        for(var i = 0; i < dataObj.allCars.length; i++){
+
+          if(dataObj.allCars[i].carRegNo === searchObj.searchValue){
+            html = '<tr id="car-%slot%"> <td>%regNo%</td> <td>%color%</td> <td>%slotNo%</td> </tr>'
+
+            //Replace place-holder with actual dataStructure
+            newHtml = html.replace('%slot%', dataObj.allCars[i].carSlot);
+            newHtml = newHtml.replace('%regNo%',dataObj.allCars[i].carRegNo);
+            newHtml = newHtml.replace('%color%',dataObj.allCars[i].carColor);
+            newHtml = newHtml.replace('%slotNo%',dataObj.allCars[i].carSlot);
+
+            //Insert the HTML into the DOM
+            document.querySelector(element).insertAdjacentHTML('beforeend', newHtml);
+          }
+
+        }
+      }
     }
 
   }
+
 })();
 
 
@@ -302,7 +368,37 @@ var controller = (function(parkingCtrl, UICtrl) {
     document.querySelector(DOM.addCarBtn).addEventListener('click', ctrlAddCarSingle);
 
     document.querySelector(DOM.container).addEventListener('click', ctrlDeleteCar);
+
+    document.querySelector(DOM.searchBtn).addEventListener('click', ctrlSearch);
+
+    document.querySelector(DOM.allCarButton).addEventListener('click', ctrlDisplayAllcar);
   };
+
+  var ctrlDisplayAllcar = function() {
+
+    //1. Clear table form UI
+    UICtrl.clearTableUI();
+
+    //2. display all parked cars
+    UICtrl.displayAllCar(parkingController.dataStructure());
+
+  }
+
+  var ctrlSearch = function() {
+    //alert('searched btn');
+
+    //1. get the field input for search opr
+    var searchInput = UICtrl.getCarData();
+    //console.log(searchInput.searchType, searchInput.searchValue);
+
+    //2. clear table from UI
+    UICtrl.clearTableUI();
+
+    //2. display all parked cars
+
+    //3. update the UI based on user inputs
+    UICtrl.searchResultDisplay(parkingController.dataStructure(), searchInput);
+  }
 
   var ctrlAddCarAuto = function() {
 

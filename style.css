@@ -82,7 +82,8 @@ body {
 }
 
 .car__registration,
-.car__color {
+.car__color,
+.search__value {
     border: 1px solid #e7e7e7;
     background-color: #fff;
     color: inherit;
@@ -105,25 +106,6 @@ body {
     vertical-align: middle;
     line-height: 1.1;
     margin-left: 10px;
-}
-
-.search__btn {
-    font-size: 20px;
-    background: none;
-    border: none;
-    color: #28B9B5;
-    cursor: pointer;
-    display: inline-block;
-    vertical-align: middle;
-    line-height: 1.1;
-    margin-right: 10px;
-}
-
-.search {
-    padding: 14px;
-    border-bottom: 1px solid #e7e7e7;
-    background-color: #f7f7f7;
-    text-align: center;
 }
 
 .container {
@@ -155,4 +137,41 @@ tr:nth-child(even) {
     cursor: pointer;
     line-height: 1;
     display: block;
+}
+
+.search__btn,
+.search__all__car {
+    font-size: 25px;
+    background: none;
+    border: none;
+    color: #28B9B5;
+    cursor: pointer;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: 1.1;
+    margin-right: 10px;
+}
+
+.search {
+    padding: 14px;
+    border-bottom: 1px solid #e7e7e7;
+    background-color: #f7f7f7;
+    text-align: center;
+}
+
+.search__type {
+    width: 500px;
+    border: 1px solid #e7e7e7;
+    height: 44px;
+    font-size: 18px;
+    color: inherit;
+    background-color: #fff;
+    margin-right: 10px;
+    font-weight: 300;
+    transition: border 0.3s;
+}
+
+.search__container {
+    margin: 0 auto;
+    text-align: center;
 }
